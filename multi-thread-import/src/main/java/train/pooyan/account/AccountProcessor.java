@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import train.pooyan.core.EntityValidation;
 import train.pooyan.core.LineProcessor;
+import train.pooyan.core.ValidationFactory;
 import train.pooyan.error.ErrorWriter;
 
 
@@ -21,9 +22,12 @@ public class AccountProcessor extends LineProcessor<Account>{
     @Value("${account.file.name}")
     private String fileName;
     
+    @Autowired
+    ValidationFactory<Account> validationFactory;
+    
 	@Override
 	public EntityValidation<Account> getValidation(String line) {
-		return AccountValidationFactory.getAccountValidation(line);
+		return validationFactory.getValidation(line);
 	}
 
 	@Override
