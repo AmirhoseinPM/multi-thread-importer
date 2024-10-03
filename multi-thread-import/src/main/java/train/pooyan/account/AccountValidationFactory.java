@@ -3,11 +3,12 @@ package train.pooyan.account;
 import org.springframework.stereotype.Component;
 
 import train.pooyan.core.EntityValidation;
+import train.pooyan.core.ValidationFactory;
 
 @Component
-public class AccountValidationFactory {
+public class AccountValidationFactory implements ValidationFactory<Account>{
 	
-	public static EntityValidation<Account> getAccountValidation(String line) {
+	public EntityValidation<Account> getValidation(String line) {
 		return new AccountValidation(line);
 	}
 }
