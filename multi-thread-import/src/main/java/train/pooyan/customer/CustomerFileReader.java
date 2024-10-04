@@ -12,9 +12,12 @@ public class CustomerFileReader extends FileReader<Customer>{
 
     @Value("${customer.file.name}")
     private String fileName;
-
-    @Autowired
     CustomerProcessor lineProcessor;
+
+	@Autowired
+	public CustomerFileReader(CustomerProcessor lineProcessor) {
+		this.lineProcessor = lineProcessor;
+	}
 
 	@Override
 	public String getFileName() {
