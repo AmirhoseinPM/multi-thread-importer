@@ -18,7 +18,7 @@ public abstract class LineProcessor<T> {
     	 * functionality  for special entity. 
 	 * */
 
-	// mapping and validation instance
+	// mapping and validation instance per line
 	public abstract EntityValidation<T> getValidation(String line);
 
 	// CSV file name
