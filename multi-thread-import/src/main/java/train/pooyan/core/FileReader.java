@@ -1,47 +1,34 @@
 package train.pooyan.core;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.Stream;
 
 public abstract class FileReader<T> {
 	/*
-	 * This class implement core functionality of reading csv files
+	 * this class implement core functionality of reading csv files
 	 * that related to entity of <T>, and process each line using a
 	 * LineProcessor bean.
-  	 * Also contains abstract methods to get functionality  for 
-    	 * special entity. 
 	 * */
-
-	// CSV file name
 	public abstract String getFileName();
-
-	// process line based on entity's LineProcessor bean.
 	public abstract LineProcessor<T> getLineProcessor();
 
-	
 	public void start(CountDownLatch threadCount) {
-		// start processing file
-		File file = new File(getFileName());
-        
-        try (
-                Scanner fileScanner = new Scanner(file)
-        ) {
-        	
-        	while (fileScanner.hasNext()) {
-        			String line = fileScanner.nextLine();
-			
-        			getLineProcessor().processLine(line);
-        	}
 
-        } catch (IOException  e) {
+        try (
+                Stream<String> fileStream = Files.lines(Path.of(getFileName()))
+        ) {
+			// use parallel stream to parallel processing
+        	fileStream.parallel().forEach(
+					line -> getLineProcessor().processLine(line)
+			);
+        } catch (IOException e) {
 			e.printStackTrace();
 		}
-        finally {        
-		// decrease threadCount argument 
+        finally {        	
 			threadCount.countDown();
 		}
 	}
-
 }
