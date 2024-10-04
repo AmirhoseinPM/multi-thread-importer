@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface EntityValidation<T> {
 	/*
-	* this interface shows abstract functionality of
+	* this interface shows abstraction of
 	* validation classes that created for validate <T> entity
 	* */
 	T getValidated();
