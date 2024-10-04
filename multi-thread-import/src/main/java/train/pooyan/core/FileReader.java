@@ -7,9 +7,11 @@ import java.util.concurrent.CountDownLatch;
 
 public abstract class FileReader<T> {
 	/*
-	 * this class implement core functionality of reading csv files
+	 * This class implement core functionality of reading csv files
 	 * that related to entity of <T>, and process each line using a
 	 * LineProcessor bean.
+  	 * Also contains abstract methods to get functionality  for 
+    	 * special entity. 
 	 * */
 	public abstract String getFileName();
 	public abstract LineProcessor<T> getLineProcessor();
