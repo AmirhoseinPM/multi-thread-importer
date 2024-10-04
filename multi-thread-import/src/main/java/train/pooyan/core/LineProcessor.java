@@ -14,12 +14,20 @@ public abstract class LineProcessor<T> {
 	 * 2. then
 	 * 		if validated, insert entity it to database,
 	 * 		otherwise write an error to json file.
-  	 * Also contains abstract methods to get functionality  for 
-    	 * special entity. 
+  	 * Also contains abstract methods to get required fields and  
+    	 * functionality  for special entity. 
 	 * */
+
+	// mapping and validation instance
 	public abstract EntityValidation<T> getValidation(String line);
+
+	// CSV file name
 	public abstract String getFileName();
+
+	// bean for add error to json file
 	public abstract ErrorWriter getErrorWriter();
+
+	// functionality of saving validated entity to database
 	public abstract T saveEntity(T entity);
 
 	public void processLine(String line) {
