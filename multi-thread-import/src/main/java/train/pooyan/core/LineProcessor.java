@@ -14,6 +14,8 @@ public abstract class LineProcessor<T> {
 	 * 2. then
 	 * 		if validated, insert entity it to database,
 	 * 		otherwise write an error to json file.
+  	 * Also contains abstract methods to get functionality  for 
+    	 * special entity. 
 	 * */
 	public abstract EntityValidation<T> getValidation(String line);
 	public abstract String getFileName();
