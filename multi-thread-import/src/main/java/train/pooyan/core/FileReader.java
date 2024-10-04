@@ -6,12 +6,18 @@ import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 
 public abstract class FileReader<T> {
-
+	/*
+	 * this class implement core functionality of reading csv files
+	 * that related to entity of <T>, and process each line using a
+	 * LineProcessor bean.
+	 * */
+	public abstract String getFileName();
+	public abstract LineProcessor<T> getLineProcessor();
 	public void start(CountDownLatch threadCount) {
 		File file = new File(getFileName());
         
         try (
-                Scanner fileScanner = new Scanner(file);
+                Scanner fileScanner = new Scanner(file)
         ) {
         	
         	while (fileScanner.hasNext()) {
@@ -26,7 +32,5 @@ public abstract class FileReader<T> {
 			threadCount.countDown();
 		}
 	}
-	
-	public abstract String getFileName();
-	public abstract LineProcessor<T> getLineProcessor();
+
 }
