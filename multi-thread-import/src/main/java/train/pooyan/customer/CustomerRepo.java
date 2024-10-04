@@ -1,8 +1,18 @@
 package train.pooyan.customer;
 
-import org.springframework.data.repository.CrudRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+@Repository
+@Transactional
+public class CustomerRepo {
 
-public interface CustomerRepo extends CrudRepository<Customer, Long> {
+    @PersistenceContext
+    EntityManager entityManager;
+
+    public void save(Customer item) {
+        entityManager.persist(item);
+    }
 }
