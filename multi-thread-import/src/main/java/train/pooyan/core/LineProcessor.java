@@ -21,10 +21,10 @@ public abstract class LineProcessor<T> {
 	public abstract T saveEntity(T entity);
 
 	public void processLine(String line) {
-		// process line and validate and maps it to entity
+		// process line, validate and maps it to entity
         EntityValidation<T> validation = getValidation(line);
 
-		// insert entity to database or write to json
+		// insert entity to database or write error to json
         importOrError(validation); 
     }
 	
