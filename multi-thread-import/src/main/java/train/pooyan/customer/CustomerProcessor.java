@@ -12,17 +12,20 @@ import train.pooyan.error.ErrorWriter;
 @Component
 public class CustomerProcessor extends LineProcessor<Customer>{
 
-    @Autowired
+	@Value("${customer.file.name}")
+	private String fileName;
     ErrorWriter errorWriter;
-    
-    @Autowired
     CustomerRepo customerRepo;
-
-    @Autowired
     ValidationFactory<Customer> validationFactory;
-    
-    @Value("${customer.file.name}")
-    private String fileName;
+
+
+	@Autowired
+	public CustomerProcessor(ErrorWriter errorWriter, CustomerRepo customerRepo, ValidationFactory<Customer> validationFactory) {
+		this.errorWriter = errorWriter;
+		this.customerRepo = customerRepo;
+		this.validationFactory = validationFactory;
+	}
+
 
 	@Override
 	public EntityValidation<Customer> getValidation(String line) {
@@ -40,7 +43,7 @@ public class CustomerProcessor extends LineProcessor<Customer>{
 	}
 
 	@Override
-	public Customer saveEntity(Customer entity) {
-		return (Customer) customerRepo.save(entity);
+	public void saveEntity(Customer entity) {
+		customerRepo.save(entity);
 	}
 }
