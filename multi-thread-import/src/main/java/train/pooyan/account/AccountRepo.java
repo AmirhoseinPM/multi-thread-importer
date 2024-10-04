@@ -1,6 +1,18 @@
 package train.pooyan.account;
 
-import org.springframework.data.repository.CrudRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
-public interface AccountRepo extends CrudRepository<Account, Long> {
+@Repository
+@Transactional
+public class AccountRepo {
+
+    @PersistenceContext
+    EntityManager entityManager;
+
+    public void save(Account item) {
+        entityManager.persist(item);
+    }
 }
