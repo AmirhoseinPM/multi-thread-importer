@@ -13,9 +13,16 @@ public abstract class FileReader<T> {
   	 * Also contains abstract methods to get functionality  for 
     	 * special entity. 
 	 * */
+
+	// CSV file name
 	public abstract String getFileName();
+
+	// process line based on entity's LineProcessor bean.
 	public abstract LineProcessor<T> getLineProcessor();
+
+	
 	public void start(CountDownLatch threadCount) {
+		// start processing file
 		File file = new File(getFileName());
         
         try (
@@ -24,13 +31,15 @@ public abstract class FileReader<T> {
         	
         	while (fileScanner.hasNext()) {
         			String line = fileScanner.nextLine();
+			
         			getLineProcessor().processLine(line);
         	}
 
         } catch (IOException  e) {
 			e.printStackTrace();
 		}
-        finally {        	
+        finally {        
+		// decrease threadCount argument 
 			threadCount.countDown();
 		}
 	}
