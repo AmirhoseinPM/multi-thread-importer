@@ -6,11 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
 import train.pooyan.core.EncryptionUtil;
 import train.pooyan.core.EntityValidation;
-import train.pooyan.customer.CustomerValidation;
+import train.pooyan.customer.Customer;
 
 
 public class AccountValidation implements EntityValidation<Account> {
@@ -30,9 +28,13 @@ public class AccountValidation implements EntityValidation<Account> {
         }
         
         recordNumber = recordNumberValidation(cols);
-        String number = numberValidation(cols);        
-        String type = typeValidation(cols);        
-        long customerId = customerIdValidation(cols);        
+
+        long customerId = customerIdValidation(cols);
+		Customer customer = new Customer();
+		customer.setId(customerId);
+
+		String number = numberValidation(cols);
+		String type = typeValidation(cols);
         long balanceLimit = balanceLimitValidation(cols);        
         LocalDate open = openDateValidation(cols);        
         String balance = balanceValidation(cols, balanceLimit);
@@ -43,7 +45,7 @@ public class AccountValidation implements EntityValidation<Account> {
         	Account account =  new Account(
                     number,
                     type, 
-                    customerId,  
+                    customer,
                     balanceLimit,
                     open,  
                     balance);
@@ -58,12 +60,13 @@ public class AccountValidation implements EntityValidation<Account> {
         	
         	if (encryptedBalance.length() < 1)
         		throw new IllegalArgumentException();
-        	
-        	Long balance = Long.parseLong(EncryptionUtil.decrypt(encryptedBalance));
-        	
+			// try to decrypt balance without exception.
+        	String decryptedBalance = EncryptionUtil.decrypt(encryptedBalance);
+			// try to parseLong without any exception.
+        	long balance = Long.parseLong(decryptedBalance);
+			// check balance limitation
         	if (
-        			(balance == null) ||
-        			(balance < limit) 
+        			(balance < limit)
         		)
         		throw new IllegalArgumentException();
         	
