@@ -1,12 +1,9 @@
 package train.pooyan.account;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
+import train.pooyan.customer.Customer;
 
 import java.time.LocalDate;
-
 
 @Entity
 public class Account {
@@ -16,7 +13,11 @@ public class Account {
 	private Long id;
 	private String number;
 	private String type;
-	private long customerId;
+
+
+	@ManyToOne
+	@JoinColumn(name="customer_id")
+	private Customer customer;
 	private long balanceLimit;
 	private LocalDate openDate;
 	private String balance;
@@ -29,7 +30,7 @@ public class Account {
 				"id=" + id +
 				", number='" + number + '\'' +
 				", type='" + type + '\'' +
-				", customerId=" + customerId +
+				", customer=" + customer +
 				", limit=" + balanceLimit +
 				", openDate=" + openDate +
 				", balance=" + balance +
@@ -38,10 +39,10 @@ public class Account {
 
 	public Account() {}
 
-	public Account(String number, String type, long customerId, long limit, LocalDate openDate, String balance) {
+	public Account(String number, String type, Customer customer, long limit, LocalDate openDate, String balance) {
 		this.number = number;
 		this.type = type;
-		this.customerId = customerId;
+		this.customer = customer;
 		this.balanceLimit = limit;
 		this.openDate = openDate;
 		this.balance = balance;
@@ -74,12 +75,12 @@ public class Account {
 		this.type = type;
 	}
 
-	public long getCustomerId() {
-		return customerId;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setCustomerId(long customerId) {
-		this.customerId = customerId;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public long getBalanceLimit() {
@@ -105,10 +106,4 @@ public class Account {
 	public void setBalance(String balance) {
 		this.balance = balance;
 	}
-
-
-
-
-	
-
 }
