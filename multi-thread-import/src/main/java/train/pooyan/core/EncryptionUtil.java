@@ -40,7 +40,7 @@ public class EncryptionUtil {
             byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
             return new String(original);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ex.getMessage();
         }
         return null;
     }
